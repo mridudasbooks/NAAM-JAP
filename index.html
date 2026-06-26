@@ -7,13 +7,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
-  <title>MRIDUDAS BOOKS – NAAM JAAP</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ðŸ•‰ï¸</text></svg>">
+  <title>MRIDUDAS BOOKS â€“ NAAM JAAP</title>
   <!-- Libraries for PDF export (cached by SW) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <style>
-    /* ---------- CSS VARIABLES – Premium Golden & Maroon Theme ---------- */
+    /* ---------- CSS VARIABLES â€“ Premium Golden & Maroon Theme ---------- */
     :root {
       --primary: #8B1A1A;
       --primary-light: #A52A2A;
@@ -375,33 +375,33 @@
 <body>
 <div id="app">
   <header>
-    <div class="logo">🕉️</div>
+    <div class="logo">ðŸ•‰ï¸</div>
     <h1>MRIDUDAS BOOKS</h1>
     <span class="subtitle">NAAM JAAP</span>
   </header>
 
   <nav id="main-nav">
-    <button class="nav-btn active" data-view="dashboard">📊 Dashboard</button>
-    <button class="nav-btn" data-view="register">📝 Register</button>
-    <button class="nav-btn" data-view="mahima">📖 Mahima</button>
-    <button class="nav-btn" data-view="settings">⚙️ Settings</button>
+    <button class="nav-btn active" data-view="dashboard">ðŸ“Š Dashboard</button>
+    <button class="nav-btn" data-view="register">ðŸ“ Register</button>
+    <button class="nav-btn" data-view="mahima">ðŸ“– Mahima</button>
+    <button class="nav-btn" data-view="settings">âš™ï¸ Settings</button>
   </nav>
 
   <main id="content">
     <!-- DASHBOARD -->
     <section id="view-dashboard" class="view active">
       <div class="welcome-card">
-        <h2>🙏 Jai Swaminarayan</h2>
+        <h2>ðŸ™ Jai Swaminarayan</h2>
         <p id="user-name-display">Guest</p>
       </div>
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-number" id="total-days">0</div>
-          <div class="stat-label">📅 Total Days</div>
+          <div class="stat-label">ðŸ“… Total Days</div>
         </div>
         <div class="stat-card">
           <div class="stat-number" id="total-jaap">0</div>
-          <div class="stat-label">🙏 Total Jaap</div>
+          <div class="stat-label">ðŸ™ Total Jaap</div>
         </div>
       </div>
       <div class="recent-entry">
@@ -414,7 +414,7 @@
     <section id="view-register" class="view">
       <div class="register-controls">
         <input type="number" id="today-jaap-input" placeholder="Today's Jaap" min="0">
-        <button id="add-entry-btn" class="btn-primary">➕ Add</button>
+        <button id="add-entry-btn" class="btn-primary">âž• Add</button>
       </div>
       <div style="overflow-x:auto; margin-top:1rem;">
         <table id="register-table">
@@ -423,24 +423,24 @@
         </table>
       </div>
       <div class="export-buttons">
-        <button id="export-csv-btn" class="btn-outline">📤 CSV</button>
-        <button id="export-pdf-btn" class="btn-outline">📄 PDF</button>
+        <button id="export-csv-btn" class="btn-outline">ðŸ“¤ CSV</button>
+        <button id="export-pdf-btn" class="btn-outline">ðŸ“„ PDF</button>
       </div>
     </section>
 
     <!-- MAHIMA -->
     <section id="view-mahima" class="view">
       <div class="mahima-toolbar">
-        <input type="text" id="mahima-search" placeholder="🔍 Search Mahima...">
-        <button id="add-mahima-btn" class="btn-primary">➕ Add</button>
+        <input type="text" id="mahima-search" placeholder="ðŸ” Search Mahima...">
+        <button id="add-mahima-btn" class="btn-primary">âž• Add</button>
       </div>
       <div id="mahima-list"></div>
       <div id="mahima-reader" style="display:none;">
-        <button id="close-reader-btn" class="btn-outline">← Back</button>
+        <button id="close-reader-btn" class="btn-outline">â† Back</button>
         <div class="reader-controls">
           <button id="font-decrease">A-</button>
           <button id="font-increase">A+</button>
-          <button id="theme-toggle-reader">🌓</button>
+          <button id="theme-toggle-reader">ðŸŒ“</button>
         </div>
         <div id="reader-content"></div>
       </div>
@@ -449,29 +449,29 @@
     <!-- SETTINGS -->
     <section id="view-settings" class="view">
       <div class="setting-group">
-        <label>👤 Your Name</label>
+        <label>ðŸ‘¤ Your Name</label>
         <input type="text" id="user-name-input" placeholder="Enter your name">
       </div>
       <div class="setting-group">
-        <label>🌙 Dark Mode</label>
+        <label>ðŸŒ™ Dark Mode</label>
         <label class="switch">
           <input type="checkbox" id="dark-mode-toggle">
           <span class="slider"></span>
         </label>
       </div>
       <div class="setting-group">
-        <label>🗣️ Language</label>
+        <label>ðŸ—£ï¸ Language</label>
         <select id="language-select">
           <option value="en">English</option>
-          <option value="hi">हिन्दी</option>
-          <option value="gu">ગુજરાતી</option>
+          <option value="hi">à¤¹à¤¿à¤¨à¥à¤¦à¥€</option>
+          <option value="gu">àª—à«àªœàª°àª¾àª¤à«€</option>
         </select>
       </div>
       <div class="setting-group">
-        <label>📖 Font Size</label>
+        <label>ðŸ“– Font Size</label>
         <input type="range" id="font-size-slider" min="14" max="28" value="18">
       </div>
-      <button id="reset-data-btn" class="btn-danger">🗑️ Reset All Data</button>
+      <button id="reset-data-btn" class="btn-danger">ðŸ—‘ï¸ Reset All Data</button>
       <p style="margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">App version 1.0.0 | MRIDUDAS BOOKS</p>
     </section>
   </main>
@@ -519,15 +519,15 @@ const DEFAULT_MAHIMA = [
   {
     id: 3,
     title: "     ",
-    content: "           ,      � �                      ,       ?
+    content: "           ,      – “                      ,       ?
 
-      �
+      –
 
               
 
- �       ,           ,      ,      ,           
+ –       ,           ,      ,      ,           
 
- �        ,        ,           
+ –        ,        ,           
 
                
 
@@ -541,11 +541,11 @@ const DEFAULT_MAHIMA = [
 
         
 
- �            ,         ,   ,
+ –            ,         ,   ,
 
                   ,               
 
-                �              ,          
+                –              ,          
 
         
 
@@ -555,7 +555,7 @@ const DEFAULT_MAHIMA = [
 
                     ,        .
 
-  �     
+  –     
 
 ;
 
@@ -563,8 +563,8 @@ const DEFAULT_MAHIMA = [
   },
   {
     id: 4,
-    title: "प्रेमानंद जी महाराज का उपदेश",
-    content: "नाम जप में निरंतरता रखें, थोड़ा सा भी प्रतिदिन जप करें। नाम ही सच्चा सहारा है, नाम ही मोक्ष का द्वार है।"
+    title: "à¤ªà¥à¤°à¥‡à¤®à¤¾à¤¨à¤‚à¤¦ à¤œà¥€ à¤®à¤¹à¤¾à¤°à¤¾à¤œ à¤•à¤¾ à¤‰à¤ªà¤¦à¥‡à¤¶",
+    content: "à¤¨à¤¾à¤® à¤œà¤ª à¤®à¥‡à¤‚ à¤¨à¤¿à¤°à¤‚à¤¤à¤°à¤¤à¤¾ à¤°à¤–à¥‡à¤‚, à¤¥à¥‹à¤¡à¤¼à¤¾ à¤¸à¤¾ à¤­à¥€ à¤ªà¥à¤°à¤¤à¤¿à¤¦à¤¿à¤¨ à¤œà¤ª à¤•à¤°à¥‡à¤‚à¥¤ à¤¨à¤¾à¤® à¤¹à¥€ à¤¸à¤šà¥à¤šà¤¾ à¤¸à¤¹à¤¾à¤°à¤¾ à¤¹à¥ˆ, à¤¨à¤¾à¤® à¤¹à¥€ à¤®à¥‹à¤•à¥à¤· à¤•à¤¾ à¤¦à¥à¤µà¤¾à¤° à¤¹à¥ˆà¥¤"
   }
 ];
 
@@ -721,7 +721,7 @@ function renderRegister() {
       <td>${index + 1}</td>
       <td><input type="number" value="${entry.todayJaap}" data-index="${index}" class="edit-today" min="0"></td>
       <td>${running}</td>
-      <td><button class="delete-btn" data-index="${index}">🗑️</button></td>
+      <td><button class="delete-btn" data-index="${index}">ðŸ—‘ï¸</button></td>
     `;
     tbody.appendChild(tr);
   });
@@ -760,12 +760,12 @@ function renderMahimaList(filter = '') {
       <h3>${item.title}</h3>
       <p>${item.content}</p>
       <div class="mahima-actions">
-        <button class="favorite-btn" data-id="${item.id}">${item.favorite ? '❤️' : '🤍'}</button>
-        <button class="share-btn" data-id="${item.id}">📤</button>
-        <button class="copy-btn" data-id="${item.id}">📋</button>
-        <button class="read-btn" data-id="${item.id}">📖 Read</button>
-        <button class="edit-btn" data-id="${item.id}">✏️</button>
-        <button class="delete-mahima-btn" data-id="${item.id}">🗑️</button>
+        <button class="favorite-btn" data-id="${item.id}">${item.favorite ? 'â¤ï¸' : 'ðŸ¤'}</button>
+        <button class="share-btn" data-id="${item.id}">ðŸ“¤</button>
+        <button class="copy-btn" data-id="${item.id}">ðŸ“‹</button>
+        <button class="read-btn" data-id="${item.id}">ðŸ“– Read</button>
+        <button class="edit-btn" data-id="${item.id}">âœï¸</button>
+        <button class="delete-mahima-btn" data-id="${item.id}">ðŸ—‘ï¸</button>
       </div>
     </div>
   `).join('');
