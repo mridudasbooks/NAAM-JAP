@@ -1,4 +1,4 @@
-const CACHE_NAME = 'naam-jaap-v1';
+const CACHE_NAME = 'naam-jap-v1';
 const ASSETS = [
   '/',
   '/index.html',
@@ -9,6 +9,7 @@ const ASSETS = [
   'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js'
 ];
 
+// Install event – cache all assets
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -17,6 +18,7 @@ self.addEventListener('install', event => {
   );
 });
 
+// Activate event – clean old caches
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => {
@@ -26,9 +28,22 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+// Fetch event – serve from cache, fallback to network
 self.addEventListener('fetch', event => {
+  const request = event.request;
+
+  // For navigation (HTML pages) – try network first, fallback to cache
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  // For all other assets – cache first, fallback to network
   event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
+    caches.match(request)
+      .then(response => response || fetch(request))
   );
 });
