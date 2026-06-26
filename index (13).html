@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#8B1A1A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+  <title>MRIDUDAS BOOKS – NAAM JAAP</title>
+  <!-- Libraries for PDF export (cached by SW) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    /* ---------- CSS VARIABLES – Premium Golden & Maroon Theme ---------- */
+    :root {
+      --primary: #8B1A1A;
+      --primary-light: #A52A2A;
+      --gold: #C9A84C;
+      --gold-light: #E8D5A3;
+      --bg: #FCF7F0;
+      --surface: #FFFFFF;
+      --text: #2D1B0E;
+      --text-muted: #6B5D48;
+      --border: #E7DCC8;
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+      --radius: 16px;
+      --font: 'Georgia', 'Noto Serif', serif;
+    }
+    [data-theme="dark"] {
+      --bg: #1A1410;
+      --surface: #2A1F18;
+      --text: #F5E6D3;
+      --text-muted: #B8A590;
+      --border: #4A3528;
+      --shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    [data-theme="sepia"] {
+      --bg: #F4ECD8;
+      --surface: #FAF3E0;
+      --text: #3D3226;
+      --text-muted: #6B5D48;
+      --border: #D4C4A8;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+    }
+    #app {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px 16px 80px;
+      background: var(--bg);
+      min-height: 100vh;
+    }
+    /* Header */
+    header {
+      text-align: center;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--gold);
+    }
+    header .logo { font-size: 2.8rem; }
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 2px;
+    }
+    header .subtitle {
+      font-size: 0.9rem;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+    /* Navigation */
+    nav {
+      display: flex;
+      gap: 4px;
+      margin: 16px 0;
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 6px;
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+    .nav-btn {
+      flex: 1;
+      padding: 10px 8px;
+      border: none;
+      background: transparent;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      font-family: var(--font);
+    }
+    .nav-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(139,26,26,0.3);
+    }
+    .nav-btn:active { transform: scale(0.96); }
+    /* Views */
+    .view { display: none; animation: fadeIn 0.3s ease; }
+    .view.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(8px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+    /* Cards */
+    .stat-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px 12px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+    .stat-number {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .welcome-card {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff;
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+    .welcome-card h2 { font-size:1.4rem; font-weight:700; }
+    .welcome-card p { font-size:1.1rem; opacity:0.9; }
+    /* Buttons */
+    .btn-primary {
+      background: var(--gold);
+      color: var(--primary);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(201,168,76,0.3);
+    }
+    .btn-primary:active { transform: scale(0.96); }
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-outline:active { transform: scale(0.96); }
+    .btn-danger {
+      background: #B22222;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    /* Register Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th {
+      background: var(--surface);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 8px 6px;
+      border-bottom: 2px solid var(--gold);
+    }
+    td {
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    td input[type="number"] {
+      width: 60px;
+      padding: 4px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--text);
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    td .delete-btn {
+      background: none;
+      border: none;
+      color: #B22222;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .register-controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .register-controls input {
+      flex: 1;
+      padding: 10px 16px;
+      border: 2px solid var(--border);
+      border-radius: 30px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 1rem;
+    }
+    .export-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      justify-content: center;
+    }
+    /* Mahima */
+    .mahima-toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .mahima-toolbar input {
+      flex: 1;
+      padding: 10px 16px;
+      border: 2px solid var(--border);
+      border-radius: 30px;
+      background: var(--surface);
+      color: var(--text);
+    }
+    .mahima-item {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--gold);
+    }
+    .mahima-item h3 { color: var(--primary); margin-bottom:4px; }
+    .mahima-item p {
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .mahima-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .mahima-actions button {
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .mahima-actions button:hover { background: var(--border); }
+    /* Reader */
+    #mahima-reader {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-top: 16px;
+    }
+    .reader-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin: 12px 0;
+    }
+    .reader-controls button {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    #reader-content {
+      font-size: 18px;
+      line-height: 2;
+      padding: 12px 0;
+    }
+    #reader-content h1 { font-size: 1.8em; }
+    #reader-content h2 { font-size: 1.4em; }
+    /* Settings */
+    .setting-group {
+      margin-bottom: 20px;
+    }
+    .setting-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .setting-group input[type="text"],
+    .setting-group select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 1rem;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+    .switch input { opacity:0; width:0; height:0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top:0; left:0; right:0; bottom:0;
+      background: #ccc;
+      transition: 0.3s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      content: "";
+      position: absolute;
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider { background: var(--gold); }
+    input:checked + .slider:before { transform: translateX(22px); }
+    .hidden { display: none !important; }
+    .favorite { color: #E74C3C; }
+    @media (max-width:400px) {
+      .nav-btn { font-size:0.65rem; padding:8px 4px; }
+      .stat-number { font-size:2rem; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">🕉️</div>
+    <h1>MRIDUDAS BOOKS</h1>
+    <span class="subtitle">NAAM JAAP</span>
+  </header>
+
+  <nav id="main-nav">
+    <button class="nav-btn active" data-view="dashboard">📊 Dashboard</button>
+    <button class="nav-btn" data-view="register">📝 Register</button>
+    <button class="nav-btn" data-view="mahima">📖 Mahima</button>
+    <button class="nav-btn" data-view="settings">⚙️ Settings</button>
+  </nav>
+
+  <main id="content">
+    <!-- DASHBOARD -->
+    <section id="view-dashboard" class="view active">
+      <div class="welcome-card">
+        <h2>🙏 Jai Swaminarayan</h2>
+        <p id="user-name-display">Guest</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="total-days">0</div>
+          <div class="stat-label">📅 Total Days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="total-jaap">0</div>
+          <div class="stat-label">🙏 Total Jaap</div>
+        </div>
+      </div>
+      <div class="recent-entry">
+        <h3>Today's Entry</h3>
+        <div id="today-entry-display">No entry yet</div>
+      </div>
+    </section>
+
+    <!-- REGISTER -->
+    <section id="view-register" class="view">
+      <div class="register-controls">
+        <input type="number" id="today-jaap-input" placeholder="Today's Jaap" min="0">
+        <button id="add-entry-btn" class="btn-primary">➕ Add</button>
+      </div>
+      <div style="overflow-x:auto; margin-top:1rem;">
+        <table id="register-table">
+          <thead><tr><th>Date</th><th>Day</th><th>Today's Jaap</th><th>Total Jaap</th><th></th></tr></thead>
+          <tbody id="register-body"></tbody>
+        </table>
+      </div>
+      <div class="export-buttons">
+        <button id="export-csv-btn" class="btn-outline">📤 CSV</button>
+        <button id="export-pdf-btn" class="btn-outline">📄 PDF</button>
+      </div>
+    </section>
+
+    <!-- MAHIMA -->
+    <section id="view-mahima" class="view">
+      <div class="mahima-toolbar">
+        <input type="text" id="mahima-search" placeholder="🔍 Search Mahima...">
+        <button id="add-mahima-btn" class="btn-primary">➕ Add</button>
+      </div>
+      <div id="mahima-list"></div>
+      <div id="mahima-reader" style="display:none;">
+        <button id="close-reader-btn" class="btn-outline">← Back</button>
+        <div class="reader-controls">
+          <button id="font-decrease">A-</button>
+          <button id="font-increase">A+</button>
+          <button id="theme-toggle-reader">🌓</button>
+        </div>
+        <div id="reader-content"></div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="view-settings" class="view">
+      <div class="setting-group">
+        <label>👤 Your Name</label>
+        <input type="text" id="user-name-input" placeholder="Enter your name">
+      </div>
+      <div class="setting-group">
+        <label>🌙 Dark Mode</label>
+        <label class="switch">
+          <input type="checkbox" id="dark-mode-toggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="setting-group">
+        <label>🗣️ Language</label>
+        <select id="language-select">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="gu">ગુજરાતી</option>
+        </select>
+      </div>
+      <div class="setting-group">
+        <label>📖 Font Size</label>
+        <input type="range" id="font-size-slider" min="14" max="28" value="18">
+      </div>
+      <button id="reset-data-btn" class="btn-danger">🗑️ Reset All Data</button>
+      <p style="margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">App version 1.0.0 | MRIDUDAS BOOKS</p>
+    </section>
+  </main>
+</div>
+<script>
+// ==================== STORAGE ====================
+const Storage = {
+  get(key, def) {
+    try {
+      const val = localStorage.getItem(key);
+      return val ? JSON.parse(val) : def;
+    } catch { return def; }
+  },
+  set(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+  }
+};
+
+// ==================== DEFAULT MAHIMA ====================
+const DEFAULT_MAHIMA = [
+  {
+    id: 1,
+    title: "    ",
+    content: "        ,        ,                              
+
+        ,             
+
+     ,        ,      -         |                     |                     
+
+                  ,       ,                 
+
+               ,           "
+  },
+  {
+    id: 2,
+    title: "     ",
+    content: "   (, )               ,              ,           ,                        
+
+                                    
+
+      , ,     ,             ,           ,        ,          ,                                       
+
+                        "
+  },
+  {
+    id: 3,
+    title: "     ",
+    content: "           ,      � �                      ,       ?
+
+      �
+
+              
+
+ �       ,           ,      ,      ,           
+
+ �        ,        ,           
+
+               
+
+                           
+
+                                                         ,                 
+
+                             ,                                 
+
+             
+
+        
+
+ �            ,         ,   ,
+
+                  ,               
+
+                �              ,          
+
+        
+
+      , ,                            ,                  
+
+    ,                  
+
+                    ,        .
+
+  �     
+
+;
+
+            ,          , ,                                  "
+  },
+  {
+    id: 4,
+    title: "प्रेमानंद जी महाराज का उपदेश",
+    content: "नाम जप में निरंतरता रखें, थोड़ा सा भी प्रतिदिन जप करें। नाम ही सच्चा सहारा है, नाम ही मोक्ष का द्वार है।"
+  }
+];
+
+// ==================== APP STATE ====================
+let state = {
+  entries: [],
+  mahima: [],
+  settings: {
+    userName: '',
+    darkMode: false,
+    language: 'en',
+    fontSize: 18
+  }
+};
+
+// ==================== INIT ====================
+function init() {
+  state.entries = Storage.get('naamJaapEntries', []);
+  state.settings = Storage.get('naamJaapSettings', state.settings);
+  state.mahima = Storage.get('naamJaapMahima', DEFAULT_MAHIMA);
+
+  applySettings();
+  renderDashboard();
+  renderRegister();
+  renderMahimaList();
+  bindEvents();
+}
+
+function bindEvents() {
+  // Navigation
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      const view = this.dataset.view;
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(`view-${view}`).classList.add('active');
+    });
+  });
+
+  // Register
+  document.getElementById('add-entry-btn').addEventListener('click', addEntry);
+  document.getElementById('export-csv-btn').addEventListener('click', exportCSV);
+  document.getElementById('export-pdf-btn').addEventListener('click', exportPDF);
+  // Mahima
+  document.getElementById('add-mahima-btn').addEventListener('click', addMahima);
+  document.getElementById('mahima-search').addEventListener('input', filterMahima);
+  document.getElementById('close-reader-btn').addEventListener('click', closeReader);
+
+  // Settings
+  document.getElementById('user-name-input').addEventListener('input', function(e) {
+    state.settings.userName = e.target.value;
+    Storage.set('naamJaapSettings', state.settings);
+    updateDashboardName();
+  });
+  document.getElementById('dark-mode-toggle').addEventListener('change', function(e) {
+    state.settings.darkMode = e.target.checked;
+    Storage.set('naamJaapSettings', state.settings);
+    applyTheme();
+  });
+  document.getElementById('language-select').addEventListener('change', function(e) {
+    state.settings.language = e.target.value;
+    Storage.set('naamJaapSettings', state.settings);
+    renderDashboard();
+    renderRegister();
+  });
+  document.getElementById('font-size-slider').addEventListener('input', function(e) {
+    state.settings.fontSize = parseInt(e.target.value);
+    Storage.set('naamJaapSettings', state.settings);
+    document.documentElement.style.fontSize = state.settings.fontSize + 'px';
+  });
+  document.getElementById('reset-data-btn').addEventListener('click', resetAll);
+
+  // Reader controls
+  document.getElementById('font-decrease').addEventListener('click', () => changeReaderFont(-2));
+  document.getElementById('font-increase').addEventListener('click', () => changeReaderFont(2));
+  document.getElementById('theme-toggle-reader').addEventListener('click', toggleReaderTheme);
+
+  // Register table event delegation for edits and deletes
+  document.getElementById('register-body').addEventListener('change', function(e) {
+    if (e.target.classList.contains('edit-today')) {
+      const idx = parseInt(e.target.dataset.index);
+      const newVal = parseInt(e.target.value) || 0;
+      state.entries[idx].todayJaap = newVal;
+      Storage.set('naamJaapEntries', state.entries);
+      // Re-render the whole table to update running totals
+      renderRegister();
+      renderDashboard();
+    }
+  });
+
+  document.getElementById('register-body').addEventListener('click', function(e) {
+    if (e.target.classList.contains('delete-btn')) {
+      const idx = parseInt(e.target.dataset.index);
+      if (confirm('Delete this entry?')) {
+        state.entries.splice(idx, 1);
+        Storage.set('naamJaapEntries', state.entries);
+        renderRegister();
+        renderDashboard();
+      }
+    }
+  });
+}
+
+// ==================== SETTINGS APPLICATION ====================
+function applySettings() {
+  applyTheme();
+  document.getElementById('user-name-input').value = state.settings.userName || '';
+  document.getElementById('dark-mode-toggle').checked = state.settings.darkMode;
+  document.getElementById('language-select').value = state.settings.language || 'en';
+  document.getElementById('font-size-slider').value = state.settings.fontSize || 18;
+  document.documentElement.style.fontSize = (state.settings.fontSize || 18) + 'px';
+  updateDashboardName();
+}
+
+function applyTheme() {
+  const theme = state.settings.darkMode ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', theme);
+}
+
+function updateDashboardName() {
+  const name = state.settings.userName || 'Guest';
+  document.getElementById('user-name-display').textContent = name;
+}
+
+// ==================== DASHBOARD ====================
+function renderDashboard() {
+  const totalDays = state.entries.length;
+  const totalJaap = state.entries.reduce((sum, e) => sum + e.todayJaap, 0);
+  document.getElementById('total-days').textContent = totalDays;
+  document.getElementById('total-jaap').textContent = totalJaap;
+
+  const today = new Date().toISOString().slice(0,10);
+  const todayEntry = state.entries.find(e => e.date === today);
+  document.getElementById('today-entry-display').textContent = todayEntry ? `${todayEntry.todayJaap} jaap` : 'No entry yet';
+  updateDashboardName();
+}
+
+// ==================== REGISTER ====================
+function renderRegister() {
+  const tbody = document.getElementById('register-body');
+  tbody.innerHTML = '';
+  const sorted = [...state.entries].sort((a,b) => a.date.localeCompare(b.date));
+  if (sorted.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">No entries yet</td></tr>';
+    return;
+  }
+  let running = 0;
+  sorted.forEach((entry, index) => {
+    running += entry.todayJaap;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${entry.date}</td>
+      <td>${index + 1}</td>
+      <td><input type="number" value="${entry.todayJaap}" data-index="${index}" class="edit-today" min="0"></td>
+      <td>${running}</td>
+      <td><button class="delete-btn" data-index="${index}">🗑️</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function addEntry() {
+  const input = document.getElementById('today-jaap-input');
+  const value = parseInt(input.value);
+  if (isNaN(value) || value < 0) { alert('Enter a valid number'); return; }
+  const today = new Date().toISOString().slice(0,10);
+  const existing = state.entries.find(e => e.date === today);
+  if (existing) {
+    existing.todayJaap += value;
+  } else {
+    state.entries.push({ date: today, todayJaap: value });
+  }
+  Storage.set('naamJaapEntries', state.entries);
+  input.value = '';
+  renderRegister();
+  renderDashboard();
+}
+
+// ==================== MAHIMA ====================
+function renderMahimaList(filter = '') {
+  const container = document.getElementById('mahima-list');
+  const list = state.mahima.filter(item =>
+    item.title.toLowerCase().includes(filter.toLowerCase()) ||
+    item.content.toLowerCase().includes(filter.toLowerCase())
+  );
+  if (list.length === 0) {
+    container.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:2rem;">No Mahima points found</div>';
+    return;
+  }
+  container.innerHTML = list.map(item => `
+    <div class="mahima-item" data-id="${item.id}">
+      <h3>${item.title}</h3>
+      <p>${item.content}</p>
+      <div class="mahima-actions">
+        <button class="favorite-btn" data-id="${item.id}">${item.favorite ? '❤️' : '🤍'}</button>
+        <button class="share-btn" data-id="${item.id}">📤</button>
+        <button class="copy-btn" data-id="${item.id}">📋</button>
+        <button class="read-btn" data-id="${item.id}">📖 Read</button>
+        <button class="edit-btn" data-id="${item.id}">✏️</button>
+        <button class="delete-mahima-btn" data-id="${item.id}">🗑️</button>
+      </div>
+    </div>
+  `).join('');
+
+  // Attach event listeners dynamically
+  container.querySelectorAll('.favorite-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = parseInt(this.dataset.id);
+      const item = state.mahima.find(i => i.id === id);
+      if (item) {
+        item.favorite = !item.favorite;
+        Storage.set('naamJaapMahima', state.mahima);
+        renderMahimaList(document.getElementById('mahima-search').value);
+      }
+    });
+  });
+  container.querySelectorAll('.share-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = parseInt(this.dataset.id);
+      const item = state.mahima.find(i => i.id === id);
+      if (item && navigator.share) {
+        navigator.share({ title: item.title, text: item.content });
+      } else {
+        alert('Share not supported or no item found');
+      }
+    });
+  });
+  container.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = parseInt(this.dataset.id);
+      const item = state.mahima.find(i => i.id === id);
+      if (item) {
+        navigator.clipboard.writeText(`${item.title}\n\n${item.content}`).then(() => alert('Copied!'));
+      }
+    });
+  });
+  container.querySelectorAll('.read-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = parseInt(this.dataset.id);
+      openReader(id);
+    });
+  });
+  container.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = parseInt(this.dataset.id);
+      editMahima(id);
+    });
+  });
+  container.querySelectorAll('.delete-mahima-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = parseInt(this.dataset.id);
+      if (confirm('Delete this Mahima point?')) {
+        state.mahima = state.mahima.filter(i => i.id !== id);
+        Storage.set('naamJaapMahima', state.mahima);
+        renderMahimaList(document.getElementById('mahima-search').value);
+      }
+    });
+  });
+}
+
+function filterMahima() {
+  const query = document.getElementById('mahima-search').value;
+  renderMahimaList(query);
+}
+
+function addMahima() {
+  const title = prompt('Enter title:');
+  if (!title) return;
+  const content = prompt('Enter content:');
+  if (!content) return;
+  const newId = state.mahima.length ? Math.max(...state.mahima.map(i => i.id)) + 1 : 1;
+  state.mahima.push({ id: newId, title, content, favorite: false });
+  Storage.set('naamJaapMahima', state.mahima);
+  renderMahimaList(document.getElementById('mahima-search').value);
+}
+
+function editMahima(id) {
+  const item = state.mahima.find(i => i.id === id);
+  if (!item) return;
+  const newTitle = prompt('Edit title:', item.title);
+  if (newTitle === null) return;
+  const newContent = prompt('Edit content:', item.content);
+  if (newContent === null) return;
+  item.title = newTitle;
+  item.content = newContent;
+  Storage.set('naamJaapMahima', state.mahima);
+  renderMahimaList(document.getElementById('mahima-search').value);
+}
+// ==================== READER ====================
+let readerFontSize = 18;
+let readerTheme = 'light';
+
+function openReader(id) {
+  const item = state.mahima.find(i => i.id === id);
+  if (!item) return;
+  document.getElementById('mahima-list').style.display = 'none';
+  document.getElementById('mahima-reader').style.display = 'block';
+  const contentDiv = document.getElementById('reader-content');
+  contentDiv.innerHTML = `<h1>${item.title}</h1><p>${item.content}</p>`;
+  contentDiv.style.fontSize = readerFontSize + 'px';
+  // Apply reader theme
+  if (readerTheme === 'dark') {
+    contentDiv.style.color = '#f5e6d3';
+    contentDiv.style.background = '#1c1410';
+  } else if (readerTheme === 'sepia') {
+    contentDiv.style.color = '#3d3226';
+    contentDiv.style.background = '#f4ecd8';
+  } else {
+    contentDiv.style.color = '';
+    contentDiv.style.background = '';
+  }
+}
+
+function closeReader() {
+  document.getElementById('mahima-reader').style.display = 'none';
+  document.getElementById('mahima-list').style.display = 'block';
+}
+
+function changeReaderFont(delta) {
+  readerFontSize = Math.max(12, Math.min(32, readerFontSize + delta));
+  document.getElementById('reader-content').style.fontSize = readerFontSize + 'px';
+}
+
+function toggleReaderTheme() {
+  const themes = ['light', 'sepia', 'dark'];
+  const currentIdx = themes.indexOf(readerTheme);
+  readerTheme = themes[(currentIdx + 1) % themes.length];
+  // Update current reader if open
+  const contentDiv = document.getElementById('reader-content');
+  if (contentDiv) {
+    if (readerTheme === 'dark') {
+      contentDiv.style.color = '#f5e6d3';
+      contentDiv.style.background = '#1c1410';
+    } else if (readerTheme === 'sepia') {
+      contentDiv.style.color = '#3d3226';
+      contentDiv.style.background = '#f4ecd8';
+    } else {
+      contentDiv.style.color = '';
+      contentDiv.style.background = '';
+    }
+  }
+}
+
+// ==================== PDF EXPORT ====================
+function exportPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const user = state.settings.userName || 'Guest';
+  const totalJaap = state.entries.reduce((sum, e) => sum + e.todayJaap, 0);
+  const totalDays = state.entries.length;
+
+  doc.setFontSize(16);
+  doc.setTextColor(139, 26, 26);
+  doc.text('MRIDUDAS BOOKS', 105, 20, { align: 'center' });
+  doc.setFontSize(14);
+  doc.setTextColor(201, 168, 76);
+  doc.text('NAAM JAP REGISTER', 105, 28, { align: 'center' });
+  doc.setFontSize(10);
+  doc.setTextColor(50);
+  doc.text('Creator: Nilesh Dhundhalva', 105, 36, { align: 'center' });
+
+  doc.setFontSize(11);
+  doc.setTextColor(0);
+  doc.text(`User: ${user}`, 14, 48);
+  doc.text(`Total Jaap: ${totalJaap}`, 14, 54);
+  doc.text(`Total Days: ${totalDays}`, 14, 60);
+
+  const tableData = state.entries.sort((a,b) => a.date.localeCompare(b.date)).map((e, i) => {
+    const running = state.entries.slice(0, i+1).reduce((s, x) => s + x.todayJaap, 0);
+    return [e.date, i+1, e.todayJaap, running];
+  });
+
+  doc.autoTable({
+    startY: 66,
+    head: [['Date', 'Day', "Today's Jaap", 'Total Jaap']],
+    body: tableData,
+    theme: 'striped',
+    headStyles: { fillColor: [139, 26, 26], textColor: [255,255,255] },
+    styles: { fontSize: 8 },
+    didDrawPage: function(data) {
+      const now = new Date().toLocaleString();
+      doc.setFontSize(8);
+      doc.setTextColor(100);
+      doc.text(`Generated on: ${now}`, 14, 285);
+      doc.text('MRIDUDAS BOOKS', 105, 285, { align: 'center' });
+    }
+  });
+
+  doc.save('naam_jap_register.pdf');
+}
+
+// ==================== CSV EXPORT ====================
+function exportCSV() {
+  const sorted = [...state.entries].sort((a,b) => a.date.localeCompare(b.date));
+  let csv = 'Date,Day,Today\'s Jaap,Total Jaap\n';
+  let running = 0;
+  sorted.forEach((e, i) => {
+    running += e.todayJaap;
+    csv += `${e.date},${i+1},${e.todayJaap},${running}\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'naam_jap_register.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ==================== RESET ====================
+function resetAll() {
+  if (confirm('Delete all data? This cannot be undone.')) {
+    localStorage.clear();
+    state.entries = [];
+    state.mahima = DEFAULT_MAHIMA;
+    state.settings = { userName: '', darkMode: false, language: 'en', fontSize: 18 };
+    Storage.set('naamJaapEntries', state.entries);
+    Storage.set('naamJaapMahima', state.mahima);
+    Storage.set('naamJaapSettings', state.settings);
+    init();
+  }
+}
+
+// ==================== BOOT ====================
+init();
+</script>
+
+<!-- Service Worker registration -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(() => console.log('SW registered'))
+    .catch(err => console.log('SW registration failed:', err));
+}
+</script>
+</body>
+</html>
